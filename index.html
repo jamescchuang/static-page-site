@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 GenAI 程式碼安全報告</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .counter-text {
+            background: linear-gradient(to right, #ef4444, #b91c1c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div class="z-10 max-w-4xl">
+            <h2 class="text-xl md:text-2xl text-gray-400 mb-4 tracking-widest uppercase">2025 GenAI 程式碼安全報告</h2>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                生成式 AI 編碼的安全性<br>
+                <span class="gradient-text">一個令人不安的真相</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+                根據對超過 100 個大型語言模型在多種程式語言及漏洞類型中的測試分析。
+            </p>
+            <a href="#stats" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg shadow-blue-500/30">
+                查看數據分析
+            </a>
+        </div>
+        
+        <!-- Animated Code Background Effect (Abstract) -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 opacity-20">
+            <div class="absolute top-10 left-10 text-xs font-mono text-green-500">function secure() { ... }</div>
+            <div class="absolute bottom-20 right-10 text-xs font-mono text-red-500">DROP TABLE users;</div>
+            <div class="absolute top-1/2 left-1/4 text-xs font-mono text-blue-500">import keras</div>
+        </div>
+    </header>
+
+    <!-- The Problem Section -->
+    <section class="py-20 px-4 bg-slate-900">
+        <div class="max-w-6xl mx-auto reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">AI 正在徹底改變軟體開發</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-gray-300 text-lg">
+                    <p>開發人員正從直接編寫程式碼，轉向以自然語言描述功能，並利用大型語言模型 (LLM) 生成具體程式碼。</p>
+                    <p>然而，開發者通常不會在提示中明確指定安全約束。選擇權落在了模型身上。</p>
+                    <div class="glass-panel p-6 mt-6 border-l-4 border-yellow-500">
+                        <h4 class="text-white font-bold mb-2">關鍵問題：</h4>
+                        <p>「在沒有任何特定安全指引的情況下，大型語言模型會生成安全的程式碼嗎？」</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-8 flex flex-col items-center justify-center space-y-4">
+                    <div class="bg-gray-700 p-3 rounded text-sm">自然語言提示：生成一個資料庫查詢</div>
+                    <div class="text-2xl">⬇️</div>
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-4xl font-bold shadow-lg animate-pulse">?</div>
+                    <div class="flex w-full justify-between mt-4 gap-4">
+                        <div class="flex-1 bg-green-900/50 border border-green-500 p-4 rounded text-center">
+                            <div class="text-green-400 font-bold mb-2">安全實作</div>
+                            <code class="text-xs text-green-200">params: [user_id]</code>
+                        </div>
+                        <div class="flex-1 bg-red-900/50 border border-red-500 p-4 rounded text-center">
+                            <div class="text-red-400 font-bold mb-2">不安全實作</div>
+                            <code class="text-xs text-red-200">... + user_id</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Big Stat Section -->
+    <section id="stats" class="py-24 bg-black relative">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h3 class="text-2xl text-gray-400 mb-4">整體結果揭示了一個嚴峻的現實</h3>
+            <div class="flex items-center justify-center text-[12rem] md:text-[15rem] font-black leading-none counter-text" id="counter">
+                0%
+            </div>
+            <p class="text-2xl md:text-3xl font-bold mt-4 text-white">
+                AI 生成的程式碼包含已知安全漏洞
+            </p>
+            <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                這些漏洞多數屬於 OWASP Top 10 的嚴重等級。這意味著只有 55% 的生成結果是安全的。
+            </p>
+        </div>
+    </section>
+
+    <!-- Methodology Cards -->
+    <section class="py-20 px-4 bg-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-10 text-center">研究方法：全面且嚴謹的測試框架</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+                <!-- Card 1 -->
+                <div class="glass-panel p-6 hover:bg-white/10 transition">
+                    <div class="text-4xl mb-4">📋</div>
+                    <h3 class="text-xl font-bold mb-2">80 個編碼任務</h3>
+                    <p class="text-sm text-gray-400">為每個語言和 CWE 組合設計了 5 個不同的實例。</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-panel p-6 hover:bg-white/10 transition">
+                    <div class="text-4xl mb-4">🧩</div>
+                    <h3 class="text-xl font-bold mb-2">4 種程式語言</h3>
+                    <p class="text-sm text-gray-400">Java, Javascript, C#, Python</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-panel p-6 hover:bg-white/10 transition">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-bold mb-2">4 種 CWE 漏洞</h3>
+                    <p class="text-sm text-gray-400">SQL 注入, XSS, 日誌注入, 不安全加密</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="glass-panel p-6 hover:bg-white/10 transition">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold mb-2">100+ LLM 模型</h3>
+                    <p class="text-sm text-gray-400">涵蓋各種模型大小、供應商和目標應用。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Charts Section -->
+    <section class="py-20 px-4 bg-slate-800">
+        <div class="max-w-6xl mx-auto space-y-24">
+            
+            <!-- Chart 1: Syntax vs Security -->
+            <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-400">趨勢一：語法完美，安全停滯</h3>
+                    <p class="text-gray-300 mb-4">
+                        <span class="text-green-400 font-bold">● 語法正確率</span> 趨近完美，近一年的模型幾乎都能生成可編譯的程式碼。
+                    </p>
+                    <p class="text-gray-300">
+                        <span class="text-red-400 font-bold">● 安全效能</span> 低迷且穩定，新模型僅比舊模型略有改善，整體趨勢持平。
+                    </p>
+                </div>
+                <div class="md:col-span-2 glass-panel p-4">
+                    <canvas id="chartTrend"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Languages -->
+            <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                <div class="md:col-span-2 glass-panel p-4 order-2 md:order-1">
+                    <canvas id="chartLang"></canvas>
+                </div>
+                <div class="md:col-span-1 order-1 md:order-2">
+                    <h3 class="text-2xl font-bold mb-4 text-yellow-400">Java 的表現令人擔憂</h3>
+                    <p class="text-gray-300 mb-4">
+                        Python (61%), C# (57%), JS (55%) 的表現非常相似且穩定。
+                    </p>
+                    <div class="bg-red-900/30 border border-red-500 p-4 rounded">
+                        <p class="text-red-200">
+                            <strong>異常值：Java</strong> 的表現明顯較差，平均通過率僅為 <strong>28.50%</strong>。
+                        </p>
+                        <p class="text-xs text-red-300 mt-2">原因：歷史遺留問題。Java 訓練資料中可能包含了更多在 SQL 注入被廣泛認識之前編寫的不安全代碼。</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Chart 3: Vulnerability Types -->
+             <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-400">漏洞類型的極端差異</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">
+                            <span class="text-2xl mr-2">✅</span>
+                            <div>
+                                <strong class="text-green-400">表現良好：</strong>
+                                <div class="text-sm">不安全加密 (85%) & SQL 注入 (80%)</div>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-2xl mr-2">❌</span>
+                            <div>
+                                <strong class="text-red-400">表現極差：</strong>
+                                <div class="text-sm">跨網站指令碼 (13%) & 日誌注入 (12%)</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <p class="text-gray-400 text-sm mt-4">
+                        原因：SQLi 有標準的「預備陳述式」修復方案。而 XSS 需要複雜的上下文分析，模型難以判斷變數是否受使用者控制。
+                    </p>
+                </div>
+                <div class="md:col-span-2 glass-panel p-4">
+                    <canvas id="chartVuln"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Section (Accordion) -->
+    <section class="py-20 px-4 bg-slate-900">
+        <div class="max-w-4xl mx-auto reveal">
+            <h2 class="text-3xl font-bold mb-8 text-center">深入探討：根本性挑戰</h2>
+            
+            <div class="space-y-4">
+                <details class="group glass-panel">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                        <span class="text-xl">為什麼模型規模越大不代表安全性越高？</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
+                        結果顯示，模型大小對安全效能的影響微乎其微。大型 (>100B 參數) 通過率為 50.87%，與中型和小型的表現幾乎一致。這表明單純增加參數無法解決根本的安全認知問題。
+                    </div>
+                </details>
+
+                <details class="group glass-panel">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                        <span class="text-xl">LLM 與靜態分析引擎 (SAST) 的區別？</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><strong>SAST：</strong> 執行精確的、跨程序的數據流分析，追蹤數據源頭。</li>
+                            <li><strong>LLM：</strong> 依賴有限的上下文視窗 (Context Window) 和淺層線索 (如變數名稱) 進行猜測，難以執行深度語意計算來判斷數據是否「髒」。</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group glass-panel">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                        <span class="text-xl">為什麼安全性沒有隨著模型能力提升而改善？</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
+                        這是<strong>訓練資料本質</strong>的問題。網路上的程式碼範例大多語法正確，但其中許多包含未修復的安全漏洞。模型學習了安全和不安全的實作方式，並認為兩者都是「合法」的。
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion & Footer -->
+    <footer class="bg-black py-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto reveal">
+            <div class="text-6xl text-blue-500 mb-6">❝</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 leading-relaxed">
+                雖然大型語言模型已擅長生成<span class="text-green-500">功能正確</span>的程式碼，<br>
+                但它們仍然以驚人的高頻率引入<span class="text-red-500">安全漏洞</span>。
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-6 mt-12 mb-12 text-left">
+                <div class="border-t-2 border-red-500 pt-4">
+                    <h4 class="font-bold text-lg mb-2">AI 不會主動學習安全</h4>
+                    <p class="text-sm text-gray-400">模型的進步集中在功能性，安全性的鴻溝依然存在。</p>
+                </div>
+                <div class="border-t-2 border-yellow-500 pt-4">
+                    <h4 class="font-bold text-lg mb-2">單純依賴 AI 是危險的</h4>
+                    <p class="text-sm text-gray-400">在沒有專門安全工具輔助下，將代碼整合到生產環境風險巨大。</p>
+                </div>
+                <div class="border-t-2 border-blue-500 pt-4">
+                    <h4 class="font-bold text-lg mb-2">開發者需要意識與工具</h4>
+                    <p class="text-sm text-gray-400">必須配備能夠在開發流程中檢測和修復這些漏洞的工具。</p>
+                </div>
+            </div>
+
+            <button class="bg-white text-black hover:bg-gray-200 font-bold py-4 px-10 rounded-full transition duration-300">
+                了解更多關於 Veracode 解決方案
+            </button>
+            <p class="mt-12 text-gray-600 text-sm">
+                基於 Veracode 2025 GenAI 程式碼安全報告。<br>
+                Copyright © 2025 Veracode, Inc. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts for Interactivity -->
+    <script>
+        // Reveal on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // Counter Animation
+        let counted = false;
+        const counterSection = document.getElementById('stats');
+        window.addEventListener('scroll', () => {
+            if(!counted && window.scrollY + window.innerHeight > counterSection.offsetTop + 100) {
+                let start = 0;
+                const end = 45;
+                const duration = 2000;
+                const element = document.getElementById('counter');
+                
+                let startTime = null;
+                function animation(currentTime) {
+                    if (startTime === null) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const run = Math.min(start + (end - start) * (timeElapsed / duration), end);
+                    element.innerHTML = Math.floor(run) + "%";
+                    if (timeElapsed < duration) requestAnimationFrame(animation);
+                }
+                requestAnimationFrame(animation);
+                counted = true;
+            }
+        });
+
+        // Charts Configuration
+        const commonOptions = {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: '#cbd5e1' } }
+            },
+            scales: {
+                y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+            }
+        };
+
+        // Chart 1: Trend
+        new Chart(document.getElementById('chartTrend'), {
+            type: 'line',
+            data: {
+                labels: ['Mar 23', 'Jun 23', 'Sep 23', 'Dec 23', 'Mar 24', 'Jun 24', 'Feb 25'],
+                datasets: [{
+                    label: '語法正確率 (Syntax)',
+                    data: [0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 0.98],
+                    borderColor: '#4ade80',
+                    backgroundColor: '#4ade80',
+                    tension: 0.4
+                }, {
+                    label: '安全效能 (Security)',
+                    data: [0.54, 0.53, 0.55, 0.54, 0.56, 0.55, 0.56],
+                    borderColor: '#ef4444',
+                    backgroundColor: '#ef4444',
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                }]
+            },
+            options: commonOptions
+        });
+
+        // Chart 2: Languages
+        new Chart(document.getElementById('chartLang'), {
+            type: 'bar',
+            data: {
+                labels: ['Python', 'C#', 'Javascript', 'Java'],
+                datasets: [{
+                    label: '安全通過率 (%)',
+                    data: [61.69, 57.34, 55.27, 28.50],
+                    backgroundColor: [
+                        '#60a5fa',
+                        '#f59e0b',
+                        '#a78bfa',
+                        '#ef4444' 
+                    ]
+                }]
+            },
+            options: {
+                ...commonOptions,
+                indexAxis: 'y'
+            }
+        });
+
+        // Chart 3: Vulns
+        new Chart(document.getElementById('chartVuln'), {
+            type: 'radar',
+            data: {
+                labels: ['不安全加密 (Crypto)', 'SQL 注入', '跨網站指令碼 (XSS)', '日誌注入'],
+                datasets: [{
+                    label: '平均防禦成功率',
+                    data: [85.61, 80.44, 13.53, 12.03],
+                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                    borderColor: '#38bdf8',
+                    pointBackgroundColor: '#38bdf8'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { color: '#475569' },
+                        grid: { color: '#475569' },
+                        pointLabels: { color: '#e2e8f0', font: {size: 14} },
+                        ticks: { backdropColor: 'transparent', color: 'transparent' }
+                    }
+                }
+            }
+        });
+
+        // Trigger reveal on load
+        reveal();
+    </script>
+</body>
+</html>
