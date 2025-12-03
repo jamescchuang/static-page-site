@@ -3,429 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 GenAI 程式碼安全報告</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
+    <title>2025 GenAI 程式碼安全性報告 - 10月更新</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
+        :root {
+            --primary-color: #0047AB; /* Veracode Blue-ish */
+            --accent-color: #E31C1C; /* Veracode Red-ish */
+            --bg-color: #F0F4F8;
+            --text-color: #333;
+            --card-bg: #FFFFFF;
         }
-        .gradient-text {
-            background: linear-gradient(to right, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        body {
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            background: linear-gradient(135deg, #e0f2ff 0%, #ffffff 100%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
         }
-        .counter-text {
-            background: linear-gradient(to right, #ef4444, #b91c1c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-bottom: 4px solid var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .update-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Key Findings Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Interactive Section */
+        .chart-section {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 500px;
+            width: 100%;
+        }
+
+        /* Text Content */
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .text-block h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        .highlight-box {
+            background: #eef6ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #333;
+            color: white;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+            .big-number {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
-    <!-- Hero Section -->
-    <header class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div class="z-10 max-w-4xl">
-            <h2 class="text-xl md:text-2xl text-gray-400 mb-4 tracking-widest uppercase">2025 GenAI 程式碼安全報告</h2>
-            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                生成式 AI 編碼的安全性<br>
-                <span class="gradient-text">一個令人不安的真相</span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
-                根據對超過 100 個大型語言模型在多種程式語言及漏洞類型中的測試分析。
-            </p>
-            <a href="#stats" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg shadow-blue-500/30">
-                查看數據分析
-            </a>
-        </div>
-        
-        <!-- Animated Code Background Effect (Abstract) -->
-        <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 opacity-20">
-            <div class="absolute top-10 left-10 text-xs font-mono text-green-500">function secure() { ... }</div>
-            <div class="absolute bottom-20 right-10 text-xs font-mono text-red-500">DROP TABLE users;</div>
-            <div class="absolute top-1/2 left-1/4 text-xs font-mono text-blue-500">import keras</div>
+    <header>
+        <div class="container">
+            <span class="update-tag">2025 年 10 月更新</span>
+            <h1>GenAI 程式碼安全性報告</h1>
+            <div class="subtitle">評估新型 LLM（大型語言模型）的安全性表現</div>
         </div>
     </header>
 
-    <!-- The Problem Section -->
-    <section class="py-20 px-4 bg-slate-900">
-        <div class="max-w-6xl mx-auto reveal">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">AI 正在徹底改變軟體開發</h2>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6 text-gray-300 text-lg">
-                    <p>開發人員正從直接編寫程式碼，轉向以自然語言描述功能，並利用大型語言模型 (LLM) 生成具體程式碼。</p>
-                    <p>然而，開發者通常不會在提示中明確指定安全約束。選擇權落在了模型身上。</p>
-                    <div class="glass-panel p-6 mt-6 border-l-4 border-yellow-500">
-                        <h4 class="text-white font-bold mb-2">關鍵問題：</h4>
-                        <p>「在沒有任何特定安全指引的情況下，大型語言模型會生成安全的程式碼嗎？」</p>
-                    </div>
-                </div>
-                <div class="glass-panel p-8 flex flex-col items-center justify-center space-y-4">
-                    <div class="bg-gray-700 p-3 rounded text-sm">自然語言提示：生成一個資料庫查詢</div>
-                    <div class="text-2xl">⬇️</div>
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-4xl font-bold shadow-lg animate-pulse">?</div>
-                    <div class="flex w-full justify-between mt-4 gap-4">
-                        <div class="flex-1 bg-green-900/50 border border-green-500 p-4 rounded text-center">
-                            <div class="text-green-400 font-bold mb-2">安全實作</div>
-                            <code class="text-xs text-green-200">params: [user_id]</code>
-                        </div>
-                        <div class="flex-1 bg-red-900/50 border border-red-500 p-4 rounded text-center">
-                            <div class="text-red-400 font-bold mb-2">不安全實作</div>
-                            <code class="text-xs text-red-200">... + user_id</code>
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <!-- 關鍵指標卡片 -->
+        <div class="metrics-grid">
+            <div class="card">
+                <span class="card-title">整體安全性合格率</span>
+                <span class="big-number">55%</span>
+                <p class="card-desc">所有測試模型與任務的平均合格率。這意味著 45% 的程式碼包含已知漏洞。</p>
+            </div>
+            <div class="card">
+                <span class="card-title">GPT-5 Mini 最高分</span>
+                <span class="big-number" style="color: var(--accent-color)">72%</span>
+                <p class="card-desc">OpenAI 的新一代推理模型刷新了紀錄，顯著優於舊款模型。</p>
+            </div>
+            <div class="card">
+                <span class="card-title">Java 安全性表現</span>
+                <span class="big-number">28.5%</span>
+                <p class="card-desc">在所有測試語言中，Java 的安全性表現最差，遠低於平均水平。</p>
             </div>
         </div>
-    </section>
 
-    <!-- The Big Stat Section -->
-    <section id="stats" class="py-24 bg-black relative">
-        <div class="max-w-4xl mx-auto text-center reveal">
-            <h3 class="text-2xl text-gray-400 mb-4">整體結果揭示了一個嚴峻的現實</h3>
-            <div class="flex items-center justify-center text-[12rem] md:text-[15rem] font-black leading-none counter-text" id="counter">
-                0%
-            </div>
-            <p class="text-2xl md:text-3xl font-bold mt-4 text-white">
-                AI 生成的程式碼包含已知安全漏洞
-            </p>
-            <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
-                這些漏洞多數屬於 OWASP Top 10 的嚴重等級。這意味著只有 55% 的生成結果是安全的。
-            </p>
-        </div>
-    </section>
-
-    <!-- Methodology Cards -->
-    <section class="py-20 px-4 bg-slate-900">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold mb-10 text-center">研究方法：全面且嚴謹的測試框架</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
-                <!-- Card 1 -->
-                <div class="glass-panel p-6 hover:bg-white/10 transition">
-                    <div class="text-4xl mb-4">📋</div>
-                    <h3 class="text-xl font-bold mb-2">80 個編碼任務</h3>
-                    <p class="text-sm text-gray-400">為每個語言和 CWE 組合設計了 5 個不同的實例。</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="glass-panel p-6 hover:bg-white/10 transition">
-                    <div class="text-4xl mb-4">🧩</div>
-                    <h3 class="text-xl font-bold mb-2">4 種程式語言</h3>
-                    <p class="text-sm text-gray-400">Java, Javascript, C#, Python</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="glass-panel p-6 hover:bg-white/10 transition">
-                    <div class="text-4xl mb-4">🛡️</div>
-                    <h3 class="text-xl font-bold mb-2">4 種 CWE 漏洞</h3>
-                    <p class="text-sm text-gray-400">SQL 注入, XSS, 日誌注入, 不安全加密</p>
-                </div>
-                <!-- Card 4 -->
-                <div class="glass-panel p-6 hover:bg-white/10 transition">
-                    <div class="text-4xl mb-4">🤖</div>
-                    <h3 class="text-xl font-bold mb-2">100+ LLM 模型</h3>
-                    <p class="text-sm text-gray-400">涵蓋各種模型大小、供應商和目標應用。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Charts Section -->
-    <section class="py-20 px-4 bg-slate-800">
-        <div class="max-w-6xl mx-auto space-y-24">
+        <!-- 互動圖表區 -->
+        <div class="chart-section">
+            <h2 style="text-align: center; color: var(--primary-color);">互動式數據分析</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: #666;">點擊下方按鈕切換不同維度的分析數據</p>
             
-            <!-- Chart 1: Syntax vs Security -->
-            <div class="grid md:grid-cols-3 gap-8 items-center reveal">
-                <div class="md:col-span-1">
-                    <h3 class="text-2xl font-bold mb-4 text-blue-400">趨勢一：語法完美，安全停滯</h3>
-                    <p class="text-gray-300 mb-4">
-                        <span class="text-green-400 font-bold">● 語法正確率</span> 趨近完美，近一年的模型幾乎都能生成可編譯的程式碼。
-                    </p>
-                    <p class="text-gray-300">
-                        <span class="text-red-400 font-bold">● 安全效能</span> 低迷且穩定，新模型僅比舊模型略有改善，整體趨勢持平。
-                    </p>
-                </div>
-                <div class="md:col-span-2 glass-panel p-4">
-                    <canvas id="chartTrend"></canvas>
-                </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="updateChart('models')">最新模型排名</button>
+                <button class="tab-btn" onclick="updateChart('languages')">程式語言比較</button>
+                <button class="tab-btn" onclick="updateChart('cwes')">漏洞類型分析</button>
             </div>
 
-            <!-- Chart 2: Languages -->
-            <div class="grid md:grid-cols-3 gap-8 items-center reveal">
-                <div class="md:col-span-2 glass-panel p-4 order-2 md:order-1">
-                    <canvas id="chartLang"></canvas>
-                </div>
-                <div class="md:col-span-1 order-1 md:order-2">
-                    <h3 class="text-2xl font-bold mb-4 text-yellow-400">Java 的表現令人擔憂</h3>
-                    <p class="text-gray-300 mb-4">
-                        Python (61%), C# (57%), JS (55%) 的表現非常相似且穩定。
-                    </p>
-                    <div class="bg-red-900/30 border border-red-500 p-4 rounded">
-                        <p class="text-red-200">
-                            <strong>異常值：Java</strong> 的表現明顯較差，平均通過率僅為 <strong>28.50%</strong>。
-                        </p>
-                        <p class="text-xs text-red-300 mt-2">原因：歷史遺留問題。Java 訓練資料中可能包含了更多在 SQL 注入被廣泛認識之前編寫的不安全代碼。</p>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Chart 3: Vulnerability Types -->
-             <div class="grid md:grid-cols-3 gap-8 items-center reveal">
-                <div class="md:col-span-1">
-                    <h3 class="text-2xl font-bold mb-4 text-purple-400">漏洞類型的極端差異</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <span class="text-2xl mr-2">✅</span>
-                            <div>
-                                <strong class="text-green-400">表現良好：</strong>
-                                <div class="text-sm">不安全加密 (85%) & SQL 注入 (80%)</div>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="text-2xl mr-2">❌</span>
-                            <div>
-                                <strong class="text-red-400">表現極差：</strong>
-                                <div class="text-sm">跨網站指令碼 (13%) & 日誌注入 (12%)</div>
-                            </div>
-                        </li>
-                    </ul>
-                    <p class="text-gray-400 text-sm mt-4">
-                        原因：SQLi 有標準的「預備陳述式」修復方案。而 XSS 需要複雜的上下文分析，模型難以判斷變數是否受使用者控制。
-                    </p>
-                </div>
-                <div class="md:col-span-2 glass-panel p-4">
-                    <canvas id="chartVuln"></canvas>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Why Section (Accordion) -->
-    <section class="py-20 px-4 bg-slate-900">
-        <div class="max-w-4xl mx-auto reveal">
-            <h2 class="text-3xl font-bold mb-8 text-center">深入探討：根本性挑戰</h2>
-            
-            <div class="space-y-4">
-                <details class="group glass-panel">
-                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                        <span class="text-xl">為什麼模型規模越大不代表安全性越高？</span>
-                        <span class="transition group-open:rotate-180">
-                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
-                        結果顯示，模型大小對安全效能的影響微乎其微。大型 (>100B 參數) 通過率為 50.87%，與中型和小型的表現幾乎一致。這表明單純增加參數無法解決根本的安全認知問題。
-                    </div>
-                </details>
-
-                <details class="group glass-panel">
-                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                        <span class="text-xl">LLM 與靜態分析引擎 (SAST) 的區別？</span>
-                        <span class="transition group-open:rotate-180">
-                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
-                        <ul class="list-disc pl-5 space-y-2">
-                            <li><strong>SAST：</strong> 執行精確的、跨程序的數據流分析，追蹤數據源頭。</li>
-                            <li><strong>LLM：</strong> 依賴有限的上下文視窗 (Context Window) 和淺層線索 (如變數名稱) 進行猜測，難以執行深度語意計算來判斷數據是否「髒」。</li>
-                        </ul>
-                    </div>
-                </details>
-
-                <details class="group glass-panel">
-                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                        <span class="text-xl">為什麼安全性沒有隨著模型能力提升而改善？</span>
-                        <span class="transition group-open:rotate-180">
-                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-300 mt-3 group-open:animate-fadeIn p-6 pt-0">
-                        這是<strong>訓練資料本質</strong>的問題。網路上的程式碼範例大多語法正確，但其中許多包含未修復的安全漏洞。模型學習了安全和不安全的實作方式，並認為兩者都是「合法」的。
-                    </div>
-                </details>
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
             </div>
         </div>
-    </section>
 
-    <!-- Conclusion & Footer -->
-    <footer class="bg-black py-20 px-4 text-center">
-        <div class="max-w-3xl mx-auto reveal">
-            <div class="text-6xl text-blue-500 mb-6">❝</div>
-            <h2 class="text-2xl md:text-3xl font-bold mb-8 leading-relaxed">
-                雖然大型語言模型已擅長生成<span class="text-green-500">功能正確</span>的程式碼，<br>
-                但它們仍然以驚人的高頻率引入<span class="text-red-500">安全漏洞</span>。
-            </h2>
-            
-            <div class="grid md:grid-cols-3 gap-6 mt-12 mb-12 text-left">
-                <div class="border-t-2 border-red-500 pt-4">
-                    <h4 class="font-bold text-lg mb-2">AI 不會主動學習安全</h4>
-                    <p class="text-sm text-gray-400">模型的進步集中在功能性，安全性的鴻溝依然存在。</p>
-                </div>
-                <div class="border-t-2 border-yellow-500 pt-4">
-                    <h4 class="font-bold text-lg mb-2">單純依賴 AI 是危險的</h4>
-                    <p class="text-sm text-gray-400">在沒有專門安全工具輔助下，將代碼整合到生產環境風險巨大。</p>
-                </div>
-                <div class="border-t-2 border-blue-500 pt-4">
-                    <h4 class="font-bold text-lg mb-2">開發者需要意識與工具</h4>
-                    <p class="text-sm text-gray-400">必須配備能夠在開發流程中檢測和修復這些漏洞的工具。</p>
+        <!-- 詳細文字分析 -->
+        <div class="content-section">
+            <div class="text-block">
+                <h2>推理模型 vs 非推理模型</h2>
+                <p>根據 2025 年 10 月的最新數據，OpenAI 的「推理模型」（Reasoning Models，如 GPT-5 系列）展現了顯著的進步。這些模型在生成回答前會進行內部的「思考」過程，這似乎起到了類似自我代碼審查的作用。</p>
+                <p>相比之下，非推理模型的表現大多停滯在 50%-59% 的區間，沒有顯著提升。除了 OpenAI 之外，其他供應商（如 Anthropic, Google, Meta）的新模型並未在基準測試中顯示出安全性的重大突破。</p>
+            </div>
+            <div class="text-block">
+                <h2>為什麼 Java 表現這麼差？</h2>
+                <p>數據顯示 Java 的安全性合格率僅有 28.5%，遠低於 Python (61.69%) 或 JavaScript (57.34%)。報告推測這與訓練數據的本質有關。</p>
+                <div class="highlight-box">
+                    <strong>報告見解：</strong> Java 擁有悠久的伺服器端開發歷史，許多訓練數據來自於 SQL Injection 等漏洞被廣泛認知之前的舊程式碼。因此，模型可能從含有大量歷史漏洞的數據集中「學壞了」。
                 </div>
             </div>
-
-            <button class="bg-white text-black hover:bg-gray-200 font-bold py-4 px-10 rounded-full transition duration-300">
-                了解更多關於 Veracode 解決方案
-            </button>
-            <p class="mt-12 text-gray-600 text-sm">
-                基於 Veracode 2025 GenAI 程式碼安全報告。<br>
-                Copyright © 2025 Veracode, Inc. All rights reserved.
-            </p>
         </div>
+
+        <div class="content-section">
+            <div class="text-block">
+                <h2>漏洞類型的極端差異</h2>
+                <p>模型在處理不同類型的安全漏洞時表現出極大的差異：</p>
+                <ul>
+                    <li><strong>表現良好：</strong>SQL Injection (SQLi) 和加密演算法 (Crypto) 的合格率超過 80%。這是因為這類問題通常有標準的「正確答案」（例如使用 Parameterized Queries）。</li>
+                    <li><strong>表現極差：</strong>跨站腳本攻擊 (XSS) 和 Log Injection 的合格率僅約 12-13%。這類問題需要理解上下文（Context）來判斷變數是否被污染，這對 LLM 來說極具挑戰性。</li>
+                </ul>
+            </div>
+            <div class="text-block">
+                <h2>結論與建議</h2>
+                <p>儘管新型推理模型帶來了希望，但目前 AI 生成的程式碼中仍有近一半包含安全風險。單靠 AI 生成安全程式碼在現階段是不可行的。</p>
+                <p><strong>企業應採取的措施：</strong></p>
+                <ul>
+                    <li>繼續使用 SAST (靜態應用程式安全測試) 和 SCA 工具。</li>
+                    <li>實施嚴格的人工代碼審查。</li>
+                    <li>不要假設 AI 生成的代碼是安全的，必須將其視為不可信的輸入。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 GenAI Code Security Report Visualization based on Veracode Data.</p>
+        <p>此網頁為互動演示，數據源自 PDF 報告原文。</p>
     </footer>
 
-    <!-- Scripts for Interactivity -->
     <script>
-        // Reveal on scroll
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        let currentChart;
 
-        // Counter Animation
-        let counted = false;
-        const counterSection = document.getElementById('stats');
-        window.addEventListener('scroll', () => {
-            if(!counted && window.scrollY + window.innerHeight > counterSection.offsetTop + 100) {
-                let start = 0;
-                const end = 45;
-                const duration = 2000;
-                const element = document.getElementById('counter');
-                
-                let startTime = null;
-                function animation(currentTime) {
-                    if (startTime === null) startTime = currentTime;
-                    const timeElapsed = currentTime - startTime;
-                    const run = Math.min(start + (end - start) * (timeElapsed / duration), end);
-                    element.innerHTML = Math.floor(run) + "%";
-                    if (timeElapsed < duration) requestAnimationFrame(animation);
-                }
-                requestAnimationFrame(animation);
-                counted = true;
-            }
-        });
-
-        // Charts Configuration
-        const commonOptions = {
-            responsive: true,
-            plugins: {
-                legend: { labels: { color: '#cbd5e1' } }
+        // 數據源 (來自 PDF Page 4, 21, 22)
+        const dataSources = {
+            models: {
+                labels: ['GPT-5 Mini', 'GPT-5', 'GPT-5 Nano', 'Gemini 2.5 Pro', 'GPT-oss-120b', 'Claude Code Fast 1', 'GPT-4.1', 'Claude Sonnet 4.5', 'Claude Opus 4.1'],
+                datasets: [{
+                    label: '安全性合格率 (%)',
+                    data: [72, 70, 65, 59, 65, 55, 59, 50, 49],
+                    backgroundColor: [
+                        '#E31C1C', '#E31C1C', '#E31C1C', // OpenAI Highlights
+                        '#0047AB', '#0047AB', '#0047AB', '#0047AB', '#0047AB', '#0047AB'
+                    ],
+                    borderWidth: 1
+                }]
             },
-            scales: {
-                y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+            languages: {
+                labels: ['Python', 'JavaScript', 'C#', 'Java'],
+                datasets: [{
+                    label: '平均安全性合格率 (%)',
+                    data: [61.69, 57.34, 55.27, 28.50],
+                    backgroundColor: ['#36A2EB', '#FFCE56', '#4BC0C0', '#FF6384'],
+                    borderWidth: 1
+                }]
+            },
+            cwes: {
+                labels: ['SQL Injection (CWE-89)', '加密問題 (CWE-327)', 'XSS (CWE-80)', 'Log Injection (CWE-117)'],
+                datasets: [{
+                    label: '漏洞防禦成功率 (%)',
+                    data: [85.61, 80.44, 13.53, 12.03],
+                    backgroundColor: ['#4BC0C0', '#36A2EB', '#FF6384', '#FF9F40'],
+                    borderWidth: 1
+                }]
             }
         };
 
-        // Chart 1: Trend
-        new Chart(document.getElementById('chartTrend'), {
-            type: 'line',
-            data: {
-                labels: ['Mar 23', 'Jun 23', 'Sep 23', 'Dec 23', 'Mar 24', 'Jun 24', 'Feb 25'],
-                datasets: [{
-                    label: '語法正確率 (Syntax)',
-                    data: [0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 0.98],
-                    borderColor: '#4ade80',
-                    backgroundColor: '#4ade80',
-                    tension: 0.4
-                }, {
-                    label: '安全效能 (Security)',
-                    data: [0.54, 0.53, 0.55, 0.54, 0.56, 0.55, 0.56],
-                    borderColor: '#ef4444',
-                    backgroundColor: '#ef4444',
-                    tension: 0.4,
-                    borderDash: [5, 5]
-                }]
+        const configOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // 在標題中已經說明，隱藏圖例更簡潔
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + '% 合格率';
+                        }
+                    }
+                }
             },
-            options: commonOptions
-        });
-
-        // Chart 2: Languages
-        new Chart(document.getElementById('chartLang'), {
-            type: 'bar',
-            data: {
-                labels: ['Python', 'C#', 'Javascript', 'Java'],
-                datasets: [{
-                    label: '安全通過率 (%)',
-                    data: [61.69, 57.34, 55.27, 28.50],
-                    backgroundColor: [
-                        '#60a5fa',
-                        '#f59e0b',
-                        '#a78bfa',
-                        '#ef4444' 
-                    ]
-                }]
-            },
-            options: {
-                ...commonOptions,
-                indexAxis: 'y'
-            }
-        });
-
-        // Chart 3: Vulns
-        new Chart(document.getElementById('chartVuln'), {
-            type: 'radar',
-            data: {
-                labels: ['不安全加密 (Crypto)', 'SQL 注入', '跨網站指令碼 (XSS)', '日誌注入'],
-                datasets: [{
-                    label: '平均防禦成功率',
-                    data: [85.61, 80.44, 13.53, 12.03],
-                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
-                    borderColor: '#38bdf8',
-                    pointBackgroundColor: '#38bdf8'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    r: {
-                        angleLines: { color: '#475569' },
-                        grid: { color: '#475569' },
-                        pointLabels: { color: '#e2e8f0', font: {size: 14} },
-                        ticks: { backdropColor: 'transparent', color: 'transparent' }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: '安全性合格率 (%)'
                     }
                 }
             }
-        });
+        };
 
-        // Trigger reveal on load
-        reveal();
+        function initChart() {
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: dataSources.models,
+                options: {
+                    ...configOptions,
+                    plugins: {
+                        ...configOptions.plugins,
+                        title: {
+                            display: true,
+                            text: '主要模型安全性表現 (2025 10月數據)',
+                            font: { size: 18 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(type) {
+            // 更新按鈕狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 更新圖表數據
+            currentChart.data = dataSources[type];
+            
+            // 更新標題
+            let titleText = '';
+            if(type === 'models') titleText = '主要模型安全性表現 (OpenAI 推理模型領先)';
+            if(type === 'languages') titleText = '各程式語言安全性表現 (Java 顯著落後)';
+            if(type === 'cwes') titleText = '各類漏洞防禦表現 (XSS 與 Log Injection 極差)';
+
+            currentChart.options.plugins.title.text = titleText;
+            currentChart.update();
+        }
+
+        // 初始化
+        initChart();
     </script>
 </body>
 </html>
