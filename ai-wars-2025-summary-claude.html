@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Wars in 2025 | 執行摘要</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f7f5f0;
+            --accent: #c41e3a;
+            --gold: #b8860b;
+            --muted: #6b6b6b;
+            --border: #d4d0c8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .header-date {
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 60px;
+            min-height: 60vh;
+            background: linear-gradient(135deg, var(--ink) 0%, #2d2d2d 100%);
+            color: var(--paper);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(255,255,255,0.02) 100px,
+                    rgba(255,255,255,0.02) 101px
+                );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-meta {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .meta-item {
+            font-size: 0.8rem;
+        }
+
+        .meta-label {
+            color: rgba(255,255,255,0.4);
+            display: block;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Key Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .stat-card:hover .stat-number {
+            color: var(--accent);
+        }
+
+        .stat-number {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            transition: color 0.3s ease;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .stat-card:hover .stat-label {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .section-number {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .section-content {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff 100%);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '"';
+            font-family: 'Noto Serif TC', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            line-height: 1;
+        }
+
+        .highlight-text {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Interactive Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .player-card {
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .player-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .player-card.active {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .player-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-name {
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .player-role {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .player-card.active .player-role {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .player-detail {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .player-card.active .player-detail {
+            display: block;
+            border-top-color: rgba(255,255,255,0.2);
+        }
+
+        /* Conclusion */
+        .conclusion {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 3rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .conclusion-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .conclusion-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 999;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <header class="header">
+        <div class="header-brand">哈佛商學院案例研究</div>
+        <div class="header-date">2025年6月</div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">執行摘要 Executive Briefing</div>
+            <h1 class="hero-title">2025年<span>AI戰爭</span></h1>
+            <p class="hero-subtitle">當搜尋引擎巨頭面臨二十年來首次流量下滑，生成式AI正在重塑科技產業的權力版圖</p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">作者</span>
+                    Andy Wu、Anna Yang
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">案例編號</span>
+                    725-484
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">出版單位</span>
+                    哈佛商學院
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">$2500億</div>
+                <div class="stat-label">Alphabet市值蒸發金額</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20年</div>
+                <div class="stat-label">Google搜尋首次下滑</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$1500億+</div>
+                <div class="stat-label">OpenAI預估推論成本<br>(至2030年)</div>
+            </div>
+        </div>
+
+        <div class="section" id="section1">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">案例背景</h2>
+            </div>
+            <div class="section-content">
+                <p>2025年6月，Google高層在加州山景城召開緊急會議。母公司Alphabet在數月內市值蒸發了約<strong>2500億美元</strong>。表面上的導火線是Google搜尋量二十年來首次下滑，但背後反映的是更深層的結構性變化。</p>
+                <p>數以億計的用戶開始將提問轉向ChatGPT、Perplexity及新興的DeepSeek等AI聊天機器人，這些曾經自動流向Google搜尋的查詢，如今正在繞道而行。</p>
+                <div class="highlight-box">
+                    <p class="highlight-text">「整理全世界的資訊」——Google的核心使命正面臨生存危機。未來的搜尋查詢可能完全繞過它。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section2">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">生成式AI的經濟困境</h2>
+            </div>
+            <div class="section-content">
+                <p>吳安迪教授指出，生成式AI面臨根本性的商業挑戰：<strong>高變動成本、低變動收入</strong>。</p>
+                <p>每次用戶輸入提示並獲得回應，都會產生「推論成本」。以那些用AI生成的吉卜力風格圖片為例，每張圖片都要消耗數美分的電力和晶片運算資源。</p>
+                <p>目前主流的月費<strong>20美元</strong>訂閱方案，不足以覆蓋大多數服務的變動成本。更糟的是，願意付費的用戶群體，目前還遠小於願意為Netflix付費的人數。</p>
+            </div>
+        </div>
+
+        <div class="section" id="section3">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">淘金熱中的三種角色</h2>
+            </div>
+            <div class="section-content">
+                <p>吳教授以淘金熱比喻來分析市場參與者。點擊下方卡片了解更多：</p>
+                <div class="cards-container">
+                    <div class="player-card" onclick="toggleCard(this)">
+                        <div class="player-icon">⛏️</div>
+                        <div class="player-name">賣鏟子的人</div>
+                        <div class="player-role">Nvidia</div>
+                        <div class="player-detail">從2022年底至今，Nvidia是生成式AI最大的贏家。作為典型的「賣鏟子」角色，無論誰在挖金礦，Nvidia都能從中獲利。</div>
+                    </div>
+                    <div class="player-card" onclick="toggleCard(this)">
+                        <div class="player-icon">💎</div>
+                        <div class="player-name">珠寶製作者</div>
+                        <div class="player-role">Meta</div>
+                        <div class="player-detail">Meta是第二大贏家，表現甚至優於Google和Microsoft。生成式AI與Meta的社群媒體、廣告平台形成互補，未來在穿戴裝置和元宇宙領域更具優勢。</div>
+                    </div>
+                    <div class="player-card" onclick="toggleCard(this)">
+                        <div class="player-icon">🪙</div>
+                        <div class="player-name">挖金礦的人</div>
+                        <div class="player-role">OpenAI / Anthropic</div>
+                        <div class="player-detail">若基礎模型本質上是商品化的，那麼這些公司將面臨艱鉅挑戰：如何將投入數千億美元創造的「商品」變現？智慧財產權保護薄弱，xAI和DeepSeek已以更少投資逼近領先者。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section4">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Google的戰略兩難</h2>
+            </div>
+            <div class="section-content">
+                <p>理論上，Google擁有將生成式AI全面整合到所有產品的技術能力。但他們選擇了<strong>克制策略</strong>。</p>
+                <p>以搜尋中的AI概覽功能為例，Google可以將其置於每個搜尋頁面頂端，但實際上他們持續調整、有時甚至撤回這項功能。</p>
+                <div class="highlight-box">
+                    <p class="highlight-text">Google傾向於部署「最小必要量」的生成式AI——足以減緩市場份額流失，但不會更多。</p>
+                </div>
+                <p>關鍵在於：生成式AI最有用的查詢類型（如「幫我寫一篇關於恐龍的作文」），恰恰是Google原本就不賺錢的查詢。Google的收入來自商業查詢——機票搜尋、購物推薦——而在這些領域，傳統搜尋仍具優勢。</p>
+            </div>
+        </div>
+
+        <div class="section" id="section5">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">泡沫風險</h2>
+            </div>
+            <div class="section-content">
+                <p>吳教授警告，未來幾年可能出現市場清算。最受關注的AI公司持續大幅虧損，盈利遙遙無期。</p>
+                <p>他對科技泡沫的定義是：<strong>「當所有人都看到價值創造的潛力，卻沒有人在思考價值獲取」</strong>。</p>
+                <p>以1990年代末的Pets.com為例——將狗糧郵寄到家是絕佳的價值主張，但當時缺乏可行的商業模式。後來Chewy證明這個業務可以成功，但前提是經濟條件已經改變。</p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h3 class="conclusion-title">核心結論</h3>
+            <p class="conclusion-text">這份案例揭示了一個處於十字路口的科技產業：生成式AI正在創造巨大價值，但透過可持續商業模式獲取這些價值仍是未解之題。最終的贏家可能不是那些建構AI本身的公司，而是那些能將AI作為現有平台互補能力的企業，或是提供關鍵基礎設施的廠商。</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>資料來源：<a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=67511" target="_blank">Harvard Business School Case 725-484</a></p>
+        <p style="margin-top: 0.5rem;">Wu, Andy, and Anna Yang. "AI Wars in 2025." Harvard Business School Case 725-484, June 2025.</p>
+    </footer>
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
+        });
+
+        // Section fade in on scroll
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Toggle player cards
+        function toggleCard(card) {
+            const wasActive = card.classList.contains('active');
+            document.querySelectorAll('.player-card').forEach(c => c.classList.remove('active'));
+            if (!wasActive) {
+                card.classList.add('active');
+            }
+        }
+
+        // Stats hover effect with counter animation
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.02)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
