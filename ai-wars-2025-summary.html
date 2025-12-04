@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI 戰爭 2025：Google 的抉擇 — 高階簡報</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-elevated: #0f172a;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --danger: #f97373;
+      --warning: #facc15;
+      --success: #4ade80;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.45);
+      --transition-fast: 0.18s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+        -system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 42%, #020617 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 32px 16px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      padding: 24px 20px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 28px 28px 32px;
+      }
+      .page {
+        padding: 40px 20px 48px;
+      }
+    }
+
+    /* 背景裝飾 */
+    .glow {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow.glow-1 {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.4), transparent 60%);
+      top: -80px;
+      right: -60px;
+    }
+    .glow.glow-2 {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.4), transparent 60%);
+      bottom: -60px;
+      left: -40px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header 區塊 */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+      }
+    }
+
+    .title-block {
+      max-width: 640px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+    }
+
+    h1 {
+      margin: 4px 0 6px;
+      font-size: 22px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 26px;
+      }
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .chip-badge {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .view-btn {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast),
+        border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .view-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    .view-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* 關鍵指標 */
+    .kpi-row {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    @media (min-width: 768px) {
+      .kpi-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: 0;
+      }
+    }
+
+    .kpi-card {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), #020617);
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-label {
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .kpi-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .kpi-tag {
+      font-size: 10px;
+      color: #fca5a5;
+      background: rgba(248, 113, 113, 0.12);
+      padding: 2px 6px;
+      border-radius: 999px;
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+
+    .kpi-tag.warning {
+      color: var(--warning);
+      background: rgba(250, 204, 21, 0.09);
+    }
+
+    .kpi-tag.success {
+      color: var(--success);
+      background: rgba(74, 222, 128, 0.09);
+    }
+
+    /* Tabs */
+    .tabs {
+      margin-top: 16px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .tab-header {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 10px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-start;
+      justify-content: center;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .tab-btn span {
+      font-size: 11px;
+    }
+
+    .tab-btn strong {
+      font-size: 13px;
+    }
+
+    .tab-btn.active {
+      background: rgba(15, 23, 42, 0.98);
+      color: #e5e7eb;
+    }
+
+    .tab-btn:not(.active):hover {
+      background: rgba(15, 23, 42, 0.7);
+      color: #e5e7eb;
+    }
+
+    .tab-body {
+      padding: 14px 14px 16px;
+    }
+
+    @media (min-width: 768px) {
+      .tab-body {
+        padding: 16px 18px 20px;
+      }
+    }
+
+    .tab-panel {
+      display: none;
+      gap: 16px;
+    }
+
+    .tab-panel.active {
+      display: grid;
+    }
+
+    /* 面板內容結構 */
+    .panel-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    @media (min-width: 900px) {
+      .panel-grid.two-col {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      }
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-pill {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--accent);
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 4px;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--accent);
+      font-size: 16px;
+      line-height: 1;
+      top: 2px;
+    }
+
+    .tagline {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .callout {
+      border-radius: 14px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.7);
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .callout strong {
+      color: #e5e7eb;
+    }
+
+    /* Accordion */
+    .accordion {
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.85);
+      overflow: hidden;
+      font-size: 12px;
+    }
+
+    .accordion-item + .accordion-item {
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .accordion-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .accordion-header:hover {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .accordion-title {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .accordion-label {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    .accordion-chevron {
+      transition: transform var(--transition-fast);
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .accordion-item.open .accordion-chevron {
+      transform: rotate(90deg);
+    }
+
+    .accordion-body {
+      padding: 0 10px 8px;
+      display: none;
+    }
+
+    .accordion-item.open .accordion-body {
+      display: block;
+    }
+
+    .option-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 10px;
+    }
+
+    .option-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    /* 視角過濾標示 */
+    .perspective-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .perspective-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+    }
+
+    .perspective-tag {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    .perspective-filtered {
+      opacity: 0.3;
+    }
+
+    footer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="container" aria-label="AI 戰爭 2025 高階簡報">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="content">
+      <!-- Header -->
+      <header class="header">
+        <div class="title-block">
+          <div class="eyebrow">
+            <span class="pill-dot"></span>
+            HBS Strategy Case · 2025
+          </div>
+          <h1>《AI 戰爭 2025》：Google 在世代轉折點的戰略抉擇</h1>
+          <p class="subtitle">
+            本頁為 <strong>董監事／CXO 一頁式簡報</strong>，根據
+            Andy Wu &amp; Anna Yang 所著 Harvard Business School 個案
+            <em>AI Wars in 2025</em> 摘要整理。
+          </p>
+
+          <div class="meta-chip-row">
+            <div class="chip">
+              <span class="chip-badge">情境年份</span>
+              <strong>2025 年 6 月</strong> · Google 山景城總部
+            </div>
+            <div class="chip">
+              <span class="chip-badge">主題</span>
+              搜尋霸權遭生成式 AI 顛覆的 <strong>商業模式戰爭</strong>
+            </div>
+            <div class="chip">
+              <span class="chip-badge">角色</span>
+              站在 <strong>Google 高階主管</strong> 視角做決策
+            </div>
+          </div>
+
+          <div class="view-toggle" aria-label="視角切換">
+            <button class="view-btn active" data-view="all">全部視角</button>
+            <button class="view-btn" data-view="ceo">CEO / 董事會</button>
+            <button class="view-btn" data-view="strategy">策略長 / 投資人</button>
+            <button class="view-btn" data-view="tech">技術長 / 產品負責人</button>
+          </div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-label">市值變動</div>
+            <div class="kpi-value">約 -2,500 億美元</div>
+            <div class="kpi-tag">市場對 AI 風險重新定價</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">搜尋量</div>
+            <div class="kpi-value">20 年來首次下滑</div>
+            <div class="kpi-tag warning">使用者改從聊天機器人起步</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">AI 成本結構</div>
+            <div class="kpi-value">高可變成本</div>
+            <div class="kpi-tag warning">GPU + 電力壓力巨大</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">獲利前景</div>
+            <div class="kpi-value">低可變收益</div>
+            <div class="kpi-tag success">需靠平台與生態系放大</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <section class="tabs" aria-label="簡報主體">
+        <div class="tab-header">
+          <button class="tab-btn active" data-tab="tab1">
+            <strong>1. 高層摘要</strong>
+            <span>一句話看懂風險與總體故事</span>
+          </button>
+          <button class="tab-btn" data-tab="tab2">
+            <strong>2. 競爭版圖</strong>
+            <span>誰在這場 AI 戰爭中搶到位置</span>
+          </button>
+          <button class="tab-btn" data-tab="tab3">
+            <strong>3. Google 的戰略選項</strong>
+            <span>董事會需要拍板的關鍵問題</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: 高層摘要 -->
+        <div class="tab-body">
+          <div class="tab-panel active" id="tab1">
+            <div class="panel-grid two-col">
+              <div>
+                <div class="section-title">
+                  一句話結論
+                  <span class="section-pill">Executive Summary</span>
+                </div>
+                <ul class="bullet-list perspective-item" data-perspective="ceo,strategy">
+                  <li>
+                    這不是「模型誰比較強」的比賽，而是
+                    <strong>誰找到可持續、能捕獲價值的 AI 商業模式</strong>；
+                    Google 必須決定要不要主動顛覆自己的搜尋金雞母。
+                  </li>
+                  <li>
+                    使用者行為已出現結構性變化：越來越多人從
+                    <strong>ChatGPT、Perplexity、DeepSeek</strong> 等聊天界面出發，
+                    搜尋入口正被「AI 助理」重新定義。
+                  </li>
+                  <li>
+                    現階段的生成式 AI
+                    <strong>可變成本極高（推論成本）</strong>、
+                    <strong>可變收入偏低（訂閱與 API 價格承壓）</strong>，
+                    多數玩家仍遠離獲利，需要平台與生態系撐起商業價值。
+                  </li>
+                </ul>
+                <p class="tagline">
+                  對管理團隊的核心提醒：<strong>「現在不只是在做技術投資，
+                  而是在重寫整個廣告與資訊入口的商業邏輯。」</strong>
+                </p>
+                <div class="callout">
+                  <strong>決策背景：</strong>在 Alphabet 市值單季蒸發約
+                  2,500 億美元之後，Google 高層在 2025 年 6 月山景城開會，
+                  決定如何在維持搜尋營收與搶占 AI 助理未來之間取捨。
+                </div>
+              </div>
+
+              <div>
+                <div class="section-title">
+                  為何這個個案值得董事會討論？
+                </div>
+                <ul class="bullet-list perspective-item" data-perspective="ceo,strategy">
+                  <li>
+                    它是典型的
+                    <strong>「現金牛 vs. 破壞式創新」自我顛覆難題</strong>，
+                    對任何擁有核心獲利引擎的企業都有借鏡。
+                  </li>
+                  <li>
+                    AI 造成的不是一次性專案支出，而是
+                    <strong>長期高昂的可變成本結構</strong>；
+                    如何設計價格與產品階梯，將決定公司長期財務體質。
+                  </li>
+                  <li>
+                    「入口」的戰爭正在從瀏覽器網址列、App 圖示，
+                    移向 <strong>跨裝置 AI 助理</strong>；
+                    誰控制入口，誰就控制使用者資料與變現機會。
+                  </li>
+                  <li>
+                    個案也凸顯人才與治理風險：OpenAI 圍繞商業化與安全的內部衝突、
+                    分家創業（Anthropic、xAI 等），都可能在任何大型 AI 團隊重演。
+                  </li>
+                </ul>
+                <div class="perspective-label">
+                  <span class="perspective-dot"></span>
+                  <span>建議用於：年度策略會議、投資審議會、AI 專案資本預算審查</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: 競爭版圖 -->
+          <div class="tab-panel" id="tab2">
+            <div class="panel-grid">
+              <div>
+                <div class="section-title">
+                  全球 AI 戰場：誰在什麼位置賺錢？
+                  <span class="section-pill">Landscape</span>
+                </div>
+                <ul class="bullet-list perspective-item" data-perspective="strategy,tech">
+                  <li>
+                    <strong>晶片與雲端層（Nvidia、雲服務商）</strong>：賣「挖礦的鏟子」，
+                    在本輪 AI 浪潮中率先收割現金與市值，是目前最穩定的獲利端。
+                  </li>
+                  <li>
+                    <strong>基礎模型層（OpenAI、Google、Anthropic、Meta、xAI 等）</strong>：
+                    研發成本與推論成本極高，IP 保護弱、產品快速同質化，
+                    若沒有平台優勢或深度整合，很難單靠模型本身賺錢。
+                  </li>
+                  <li>
+                    <strong>平台與產品層（Microsoft Copilot、Google Workspace、Meta）</strong>：
+                    將 AI 裝進既有產品與廣告系統，以 <strong>提升 ARPU</strong> 與
+                    <strong>留存率</strong>，是比較有機會拿到正向投資報酬的區塊。
+                  </li>
+                  <li>
+                    <strong>垂直應用層（產業別 Copilot、內部工具）</strong>：
+                    直接對接業務流程與 KGI，價值清晰，但高度碎片化，
+                    需要強大的企業銷售與導入能力。
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="section-title">
+                  搜尋入口被誰威脅？
+                </div>
+                <ul class="bullet-list perspective-item" data-perspective="ceo,strategy,tech">
+                  <li>
+                    <strong>OpenAI + Microsoft</strong>：透過 ChatGPT 與 Copilot，
+                    把 AI 深度綁定在 Windows、Office 與 Azure 生態圈。
+                  </li>
+                  <li>
+                    <strong>Perplexity、DeepSeek 等新創</strong>：
+                    站在 Google 之上做「AI 搜尋介面」，一方面取用多家搜尋引擎，
+                    一方面在前端奪走使用者注意力與品牌心佔率。
+                  </li>
+                  <li>
+                    <strong>Google 自家產品（Gemini、AI Overview）</strong>：
+                    既是防禦工具，也是自我蠶食風險來源——
+                    每一個 AI 摘要，都可能替代原本帶廣告的搜尋結果點擊。
+                  </li>
+                </ul>
+                <div class="callout">
+                  <strong>觀念提醒：</strong>個案顯示，2025 年初多個 AI 產品的
+                  月活躍使用者已達上億，但真正有穩定獲利模式的，仍以掌握
+                  <strong>硬體供給或大型平台入口</strong> 的公司為主。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Google 的戰略選項 -->
+          <div class="tab-panel" id="tab3">
+            <div class="panel-grid">
+              <div>
+                <div class="section-title">
+                  董事會要拍板的幾個方向
+                  <span class="section-pill">Strategic Options</span>
+                </div>
+                <div class="accordion perspective-item" data-perspective="ceo,strategy,tech">
+                  <!-- Option 1 -->
+                  <div class="accordion-item open">
+                    <div class="accordion-header">
+                      <div class="accordion-title">
+                        <span class="accordion-label">選項 A</span>
+                        <span>把搜尋當核心入口，AI 做「增強」而非「替代」</span>
+                      </div>
+                      <span class="accordion-chevron">›</span>
+                    </div>
+                    <div class="accordion-body">
+                      <ul class="bullet-list">
+                        <li>維持搜尋頁面為主要入口，AI Overview 作為輔助摘要，避免完全取代連結與廣告。</li>
+                        <li>優先保護關鍵字廣告與商業搜尋流量，採取「漸進式」導入 AI 介面。</li>
+                        <li>風險：行動過緩，讓使用者習慣在其他 AI 助理上完成任務，導致入口位階下滑。</li>
+                      </ul>
+                      <div class="option-tags">
+                        <span class="option-tag">優先保護現金牛</span>
+                        <span class="option-tag">較低品牌風險</span>
+                        <span class="option-tag">易被視為跟隨者</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Option 2 -->
+                  <div class="accordion-item">
+                    <div class="accordion-header">
+                      <div class="accordion-title">
+                        <span class="accordion-label">選項 B</span>
+                        <span>積極推 Gemini 式 AI 助理，容忍短期營收蠶食</span>
+                      </div>
+                      <span class="accordion-chevron">›</span>
+                    </div>
+                    <div class="accordion-body">
+                      <ul class="bullet-list">
+                        <li>把多裝置 AI 助理（Gemini）視為下一代入口，全力投資產品體驗與品牌心佔率。</li>
+                        <li>接受短期搜尋廣告營收壓力，以換取長期在 AI 助理戰場的主導權。</li>
+                        <li>需要設計新的營收模式（企業授權、垂直解決方案、與 Android/Chrome 綁定）。</li>
+                      </ul>
+                      <div class="option-tags">
+                        <span class="option-tag">高成長潛力</span>
+                        <span class="option-tag">短期財報壓力</span>
+                        <span class="option-tag">需要明確 KPI</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Option 3 -->
+                  <div class="accordion-item">
+                    <div class="accordion-header">
+                      <div class="accordion-title">
+                        <span class="accordion-label">選項 C</span>
+                        <span>開放 Gemma 生態系，讓開發者「站在 Google 上」創新</span>
+                      </div>
+                      <span class="accordion-chevron">›</span>
+                    </div>
+                    <div class="accordion-body">
+                      <ul class="bullet-list">
+                        <li>以開源或開放權限的 Gemma 模型，建立開發者與企業的默契與依賴。</li>
+                        <li>靠雲端、管理服務、安全與治理工具賺錢，而非單純賣模型使用權。</li>
+                        <li>風險是部分能力會被快速複製，但可換取生態系規模與標準制定力。</li>
+                      </ul>
+                      <div class="option-tags">
+                        <span class="option-tag">適合技術長視角</span>
+                        <span class="option-tag">擴大生態系</span>
+                        <span class="option-tag">需清楚授權策略</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Option 4 -->
+                  <div class="accordion-item">
+                    <div class="accordion-header">
+                      <div class="accordion-title">
+                        <span class="accordion-label">選項 D</span>
+                        <span>聚焦高價值垂直場景：企業 Copilot 與產業解決方案</span>
+                      </div>
+                      <span class="accordion-chevron">›</span>
+                    </div>
+                    <div class="accordion-body">
+                      <ul class="bullet-list">
+                        <li>以 Workspace、Cloud 為基底，在特定產業（金融、醫療、供應鏈）推出高價值 Copilot 方案。</li>
+                        <li>用「每席位 + 使用量」的定價模式，把高 AI 成本轉嫁到明確可衡量的商業價值上。</li>
+                        <li>這條路較接近 B2B 軟體公司邏輯，需要強企業銷售與導入能力。</li>
+                      </ul>
+                      <div class="option-tags">
+                        <span class="option-tag">策略長 / CFO 關注</span>
+                        <span class="option-tag">可見 ROI</span>
+                        <span class="option-tag">導入週期較長</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="section-title">
+                  給高階管理團隊的討論問題
+                </div>
+                <ul class="bullet-list perspective-item" data-perspective="ceo,strategy,tech">
+                  <li>
+                    在我們自己的產業裡，「Google 搜尋」等同於什麼？
+                    若 AI 重新定義入口，我們願意多快、多深地自我顛覆？
+                  </li>
+                  <li>
+                    我們目前的 AI 專案，<strong>每單位推論成本 vs. 每單位收入</strong> 是多少？
+                    若使用量暴增，財務是「越用越好」還是「越用越虧」？
+                  </li>
+                  <li>
+                    我們想站在 AI 價值鏈的哪一層：硬體／平台／模型／應用？
+                    那一層在長期結構上真的有定價權嗎？
+                  </li>
+                  <li>
+                    若把這個個案視為 3–5 年後的我們，今天需要提前做哪些組織與人才布署（治理機制、風險委員會、技術領導梯隊）？
+                  </li>
+                </ul>
+                <div class="callout">
+                  <strong>建議做法：</strong>可將本頁作為會議前閱讀資料，並請各部門在會前以
+                  「我們的 Search 是什麼？」為題準備 1 張投影片，說明各自的風險與機會。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>整理依據：Andy Wu &amp; Anna Yang，Harvard Business School Case
+          <em>AI Wars in 2025</em>（2025）</span>
+        <span>此頁為內部討論用摘要，非完整個案翻譯或授權出版物。</span>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab 切換邏輯
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabPanels = document.querySelectorAll(".tab-panel");
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-tab");
+      tabButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      tabPanels.forEach((panel) => {
+        if (panel.id === target) {
+          panel.classList.add("active");
+        } else {
+          panel.classList.remove("active");
+        }
+      });
+    });
+  });
+
+  // Accordion 展開/收合
+  const accordionHeaders = document.querySelectorAll(".accordion-header");
+  accordionHeaders.forEach((header) => {
+    header.addEventListener("click", () => {
+      const item = header.parentElement;
+      const open = item.classList.contains("open");
+      // 若想一次只開一個，可先全部關閉
+      item.parentElement
+        .querySelectorAll(".accordion-item")
+        .forEach((i) => i.classList.remove("open"));
+      if (!open) {
+        item.classList.add("open");
+      }
+    });
+  });
+
+  // 視角過濾（CEO / 策略 / 技術）
+  const viewButtons = document.querySelectorAll(".view-btn");
+  const perspectiveItems = document.querySelectorAll(".perspective-item");
+
+  function applyPerspective(view) {
+    if (view === "all") {
+      perspectiveItems.forEach((el) => {
+        el.classList.remove("perspective-filtered");
+      });
+      return;
+    }
+    perspectiveItems.forEach((el) => {
+      const perspectives = (el.getAttribute("data-perspective") || "").split(",");
+      if (perspectives.includes(view)) {
+        el.classList.remove("perspective-filtered");
+      } else {
+        el.classList.add("perspective-filtered");
+      }
+    });
+  }
+
+  viewButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const view = btn.getAttribute("data-view");
+      viewButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      applyPerspective(view);
+    });
+  });
+
+  // 初始套用
+  applyPerspective("all");
+</script>
+</body>
+</html>
