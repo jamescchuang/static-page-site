@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 生成式 AI 現況回顧 | 重點摘要</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --highlight-color: #e74c3c;
+            --bg-color: #f4f6f7;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #e0e0e0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Stats Bars */
+        .stat-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .progress-bg {
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .progress-fill.red { background-color: var(--highlight-color); }
+        .progress-fill.green { background-color: #27ae60; }
+
+        /* Comparison Chart */
+        .comparison-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .comp-title {
+            flex: 1;
+            font-weight: bold;
+            padding-right: 1rem;
+        }
+
+        .comp-bars {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .comp-bar-container {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .comp-label {
+            width: 50px;
+            text-align: right;
+            margin-right: 10px;
+            color: #777;
+        }
+
+        .comp-bar {
+            height: 18px;
+            border-radius: 4px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .comp-bar span {
+            position: absolute;
+            right: -35px;
+            top: 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .global-bar { background-color: var(--accent-color); }
+        .tw-bar { background-color: var(--highlight-color); }
+
+        .tag {
+            display: inline-block;
+            background: #e8f4fd;
+            color: var(--accent-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .comparison-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .comp-bars {
+                width: 100%;
+                margin-top: 10px;
+            }
+            .comp-bar span {
+                right: 5px;
+                color: white;
+                text-shadow: 0 0 2px black;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>2025 生成式 AI 現況回顧</h1>
+    <p>台灣企業應用現況、挑戰與未來展望</p>
+</header>
+
+<div class="container">
+    
+    <!-- Summary Section -->
+    <div class="card">
+        <h2>文章核心摘要</h2>
+        <p>隨著 2025 年即將到來，生成式 AI 的普及正迫使企業與個人重新思考工作模式。根據 iThome 與資策會的數據，台灣雖有近半數人使用過生成式 AI，但在企業端的深度應用與策略部署上，與全球領先企業仍存在顯著落差。</p>
+        <div style="margin-top: 1rem;">
+            <span class="tag">#工作轉型</span>
+            <span class="tag">#軟體開發</span>
+            <span class="tag">#企業策略</span>
+            <span class="tag">#數位落差</span>
+        </div>
+    </div>
+
+    <!-- Interactive Section -->
+    <div class="card">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'usage')">台灣 AI 使用現況</button>
+            <button class="tab-btn" onclick="openTab(event, 'corporate')">企業導入成熟度</button>
+            <button class="tab-btn" onclick="openTab(event, 'gap')">台灣 vs 全球差距</button>
+        </div>
+
+        <!-- Tab 1: Usage Stats -->
+        <div id="usage" class="tab-content active">
+            <h3>個人使用偏好 (資策會調查)</h3>
+            <p>近 50% 的台灣民眾曾使用生成式 AI，主要用途如下：</p>
+            
+            <div class="stat-group">
+                <div class="stat-label"><span>文字生成</span><span>78%</span></div>
+                <div class="progress-bg"><div class="progress-fill" style="width: 78%">Top 1</div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>圖像生成</span><span>51%</span></div>
+                <div class="progress-bg"><div class="progress-fill" style="width: 51%"></div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>影音生成</span><span>27%</span></div>
+                <div class="progress-bg"><div class="progress-fill" style="width: 27%"></div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>程式碼生成</span><span>25%</span></div>
+                <div class="progress-bg"><div class="progress-fill" style="width: 25%"></div></div>
+            </div>
+
+            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+            
+            <h3>大眾主要擔憂 (93% 表示擔憂)</h3>
+            <div class="stat-group">
+                <div class="stat-label"><span>虛假與偏誤內容</span><span>64%</span></div>
+                <div class="progress-bg"><div class="progress-fill red" style="width: 64%"></div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>過度依賴</span><span>60%</span></div>
+                <div class="progress-bg"><div class="progress-fill red" style="width: 60%"></div></div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Corporate Stats -->
+        <div id="corporate" class="tab-content">
+            <h3>台灣大型企業導入現況</h3>
+            <p>根據 2025 iThome CIO 大調查，企業呈現兩極化發展：</p>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-around; margin: 2rem 0;">
+                <div style="text-align: center; flex: 1; min-width: 150px;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--accent-color);">15%</div>
+                    <div style="color: #666;">已在正式環境使用<br>(領先群)</div>
+                </div>
+                <div style="text-align: center; flex: 1; min-width: 150px;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #95a5a6;">75%</div>
+                    <div style="color: #666;">落後群<br>(尚未採用或僅測試)</div>
+                </div>
+            </div>
+
+            <div class="stat-group">
+                <h4>領先企業都在做什麼？</h4>
+                <div class="stat-label"><span>日常工作輔助</span><span>86%</span></div>
+                <div class="progress-bg"><div class="progress-fill green" style="width: 86%"></div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>RAG (檢索增強生成)</span><span>74%</span></div>
+                <div class="progress-bg"><div class="progress-fill green" style="width: 74%"></div></div>
+            </div>
+            <div class="stat-group">
+                <div class="stat-label"><span>軟體工程增強</span><span>59%</span></div>
+                <div class="progress-bg"><div class="progress-fill green" style="width: 59%"></div></div>
+            </div>
+        </div>
+
+        <!-- Tab 3: The Gap -->
+        <div id="gap" class="tab-content">
+            <h3>Cisco 報告：台灣企業 vs 全球領先者</h3>
+            <p>台灣企業在 AI 準備度上與全球領先企業 (Pacesetters) 存在巨大落差，尤其在策略與基礎建設方面。</p>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 10px; font-size: 0.9rem;">
+                <div style="display: flex; align-items: center;"><span style="width: 12px; height: 12px; background: var(--accent-color); display: inline-block; margin-right: 5px;"></span> 全球領先企業</div>
+                <div style="display: flex; align-items: center;"><span style="width: 12px; height: 12px; background: var(--highlight-color); display: inline-block; margin-right: 5px;"></span> 台灣企業</div>
+            </div>
+
+            <!-- Comparison Item 1 -->
+            <div class="comparison-row">
+                <div class="comp-title">明確的 AI 發展路線圖</div>
+                <div class="comp-bars">
+                    <div class="comp-bar-container">
+                        <div class="comp-label">Global</div>
+                        <div class="comp-bar global-bar" style="width: 99%"><span>99%</span></div>
+                    </div>
+                    <div class="comp-bar-container">
+                        <div class="comp-label">TW</div>
+                        <div class="comp-bar tw-bar" style="width: 53%"><span>53%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Item 2 -->
+            <div class="comparison-row">
+                <div class="comp-title">配套的變革管理計畫</div>
+                <div class="comp-bars">
+                    <div class="comp-bar-container">
+                        <div class="comp-label">Global</div>
+                        <div class="comp-bar global-bar" style="width: 91%"><span>91%</span></div>
+                    </div>
+                    <div class="comp-bar-container">
+                        <div class="comp-label">TW</div>
+                        <div class="comp-bar tw-bar" style="width: 33%"><span>33%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Item 3 -->
+            <div class="comparison-row">
+                <div class="comp-title">預算與企業策略相符</div>
+                <div class="comp-bars">
+                    <div class="comp-bar-container">
+                        <div class="comp-label">Global</div>
+                        <div class="comp-bar global-bar" style="width: 79%"><span>79%</span></div>
+                    </div>
+                    <div class="comp-bar-container">
+                        <div class="comp-label">TW</div>
+                        <div class="comp-bar tw-bar" style="width: 18%"><span>18%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Item 4 -->
+            <div class="comparison-row">
+                <div class="comp-title">靈活擴展的網路架構</div>
+                <div class="comp-bars">
+                    <div class="comp-bar-container">
+                        <div class="comp-label">Global</div>
+                        <div class="comp-bar global-bar" style="width: 71%"><span>71%</span></div>
+                    </div>
+                    <div class="comp-bar-container">
+                        <div class="comp-label">TW</div>
+                        <div class="comp-bar tw-bar" style="width: 11%"><span>11%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Item 5 -->
+            <div class="comparison-row">
+                <div class="comp-title">持續追蹤 AI 投資成效</div>
+                <div class="comp-bars">
+                    <div class="comp-bar-container">
+                        <div class="comp-label">Global</div>
+                        <div class="comp-bar global-bar" style="width: 95%"><span>95%</span></div>
+                    </div>
+                    <div class="comp-bar-container">
+                        <div class="comp-label">TW</div>
+                        <div class="comp-bar tw-bar" style="width: 27%"><span>27%</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Impact Quote -->
+    <div class="card" style="background: #e8f6f3; border-left: 5px solid #1abc9c;">
+        <h3>💡 值得思考的問題</h3>
+        <p>「如果已建立 AI 工作流程提高效率...我們將會裁撤員工維持同樣產能？或是聘用更多員工來執行 AI 工作流程，提升產能？」</p>
+        <p style="text-align: right; font-style: italic;">— 引用自社群討論</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>資料來源：<a href="https://www.ithome.com.tw/voice/172640" target="_blank">2025生成式AI現況回顧 | iThome</a></p>
+    <p>Generated by AI Assistant</p>
+</footer>
+
+<script>
+    function openTab(evt, tabName) {
+        // Hide all tab content
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+
+        // Remove active class from buttons
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show current tab and add active class
+        document.getElementById(tabName).style.display = "block";
+        setTimeout(() => {
+            document.getElementById(tabName).classList.add("active");
+        }, 10);
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+</body>
+</html>
